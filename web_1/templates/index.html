@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Web</title>
+  </head>
+  <body>
+
+      <!-- jinja2 tempplate -->
+
+    {% for post in posts %}
+      <h1>{{ post.title }}</h1>
+      <h3> {{ post.content }} <h3>
+        <!-- conditional expression -->
+        {{ 'Mr.' if post.gender == 1 else 'Mrs.' }}
+        {{post.author}}
+    {% endfor %}
+  </body>
+</html>
