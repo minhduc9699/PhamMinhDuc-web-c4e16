@@ -12,7 +12,7 @@ def get_info(username):
         "quy" : {
                     "name" : "Dinh Cong Quy",
                     "age" : 20,
-                    "work" : "support"
+                    "work" : "supporter"
                 },
         "tuananh" : {
                     "name" : "Huynh tuan Anh",

@@ -1,9 +1,11 @@
 from flask import Flask, render_template, redirect
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-    return ('Em chào anh Quý =))')
+    return render_template('index.html')
+
 
 @app.route('/about-me')
 def intro():
@@ -14,7 +16,7 @@ def intro():
         "hairstyle" : "DreadLocks",
         "talent" : "coding overnight :v"
     }
-    return render_template('index.html', infos=infos)
+    return render_template('index_about_me.html', infos=infos)
 
 
 @app.route('/school')
@@ -22,4 +24,4 @@ def access():
     return redirect('http://techkids.vn', code=302)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  app.run(debug=True)
