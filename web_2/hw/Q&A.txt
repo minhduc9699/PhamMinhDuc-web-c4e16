@@ -1,0 +1,6 @@
+Are there any duplicate ids in the records?
+- Nope
+
+Why? Guess what information this is field represents and its implication/application
+
+- cuz it's primary key - an unique value. pk is use to identity a doc in a collection
