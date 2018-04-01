@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return ('em lại chào a Quý :v')
+    return ('em lại chào a Quý :v nếu web không chạy thì a vào atom bỏ cmt nhá :)))')
 
 # without using render_template, bỏ cmt ra check a nhá :v
 '''

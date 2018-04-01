@@ -1,10 +1,10 @@
 from flask import Flask, render_template
 app = Flask(__name__)
 
-
+\
 @app.route('/')
 def index():
-    return ("chào a Quý lần 3 :v")
+    return render_template('index_intro.html')
 
 @app.route('/user/<username>')
 def get_info(username):
@@ -12,18 +12,28 @@ def get_info(username):
         "quy" : {
                     "name" : "Dinh Cong Quy",
                     "age" : 20,
-                    "work" : "supporter"
+                    "role" : "supporter",
+                    "email" : "quy.dc98@gmail.com"
                 },
         "tuananh" : {
                     "name" : "Huynh tuan Anh",
                     "age" : 22,
-                    "work" : 'teacher'
+                    "role" : 'teacher',
+                    "email" : 'huynhtuan21895@gmail.com'
                     },
         "minhduc" : {
                     "name" : "Pham Minh Duc",
                     "age" : 19,
-                    "work" : 'student'
-                    }
+                    "role" : 'student',
+                    "email" : "minhduc.096.99@gmail.com"
+                    },
+        "hoacodethoi" : {
+                    "name" : "Vu Duc Hoa",
+                    "age" : 19,
+                    "role" : "student",
+                    "email" : "unknown"
+                        }
+
     }
 
     if username not in Users:
