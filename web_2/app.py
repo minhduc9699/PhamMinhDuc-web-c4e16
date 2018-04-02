@@ -25,9 +25,11 @@ def search(gender):
 
 @app.route('/customer')
 def get_customer():
-    #Render all customers:
+    #Render all customers: (bỏ cmt để kiểm tra a eii :v)
+
         # all_customers = Customer.objects()
         # return render_template('customer.html', all_customers = all_customers)
+
     #render 10 male uncontacted customers:
     uncontacted_customers = Customer.objects(gender=1, contacted=False).limit(10)
     return render_template('customer.html', all_customers=uncontacted_customers)
