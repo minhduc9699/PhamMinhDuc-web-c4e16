@@ -16,7 +16,13 @@
         <img src="../static/image/male-profile.jpg" alt="Ảnh Nóng">
         {% endif %}
       <p>Name: {{customer.name}}</p>
-      <p>Gender: {{customer.gender}}</p>
+
+      {% if customer.gender == 0 %}
+        <p>Gender: Female</p>
+      {% else %}
+        <p>Gender: Male</p>
+
+        {% endif %}
       <p>Email: {{customer.email}}</p>
       <p>Phone: {{customer.phone}}</p>
       <p>job: {{customer.job}} </p>
