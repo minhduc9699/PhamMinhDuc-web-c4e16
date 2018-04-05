@@ -32,7 +32,7 @@ def customer():
 def get_customer():
 
     #render 10 male uncontacted customers:
-    uncontacted_customers = Customer.objects(gender=1, contacted=False).limit(10)
+    uncontacted_customers = Customer.objects[:10](gender=1, contacted=False)
     return render_template('customer.html', all_customers=uncontacted_customers)
 
 
