@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import *
 from models.service import Service, Customer
 import mlab
 
@@ -34,6 +34,37 @@ def get_customer(gender):
     #render 10 male uncontacted customers:
     uncontacted_customers = Customer.objects[:10](gender=gender, contacted=False)
     return render_template('customer.html', all_customers=uncontacted_customers)
+
+
+@app.route('/admin')
+def admin():
+    services = Service.objects()
+    return render_template('admin.html', services= services)
+
+
+@app.route('/delete/<service_id>')
+def delete(service_id):
+    services_to_del = Service.objects.with_id(service_id)
+    if service_id is None:
+        return('Id not found')
+    else:
+        services_to_del.delete()
+        return redirect(url_for('admin'))
+
+@app.route('/add_member', methods=['GET', 'POST'])
+def add_member():
+    if request.method == "GET":
+        return render_template('new_service.html')
+    elif request.method == 'POST':
+        form = request.form
+        name = form['name']
+        yob = form['yob']
+        address = form['address']
+        new_service = Service(name=name, yob=yob, address=address)
+        new_service.save()
+
+        return redirect(url_for('admin'))
+
 
 
 if __name__ == '__main__':
