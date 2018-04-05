@@ -14,6 +14,7 @@
     <b>Bạn là Nữ: </b><a href="{{ url_for('search', gender=1) }}">click vào anh đi</a>
     <br>
     <button><a href="{{url_for('customer')}}"> <p>danh sách khách hàng <p></a></button>
-    <button><a href="{{url_for('get_customer')}}"> <p>khách hàng chưa liên lạc</p> </a></button>
+    <button><a href="{{url_for('get_customer', gender = 1)}}"> <p>khách hàng nam chưa liên lạc</p> </a></button>
+    <button><a href="{{url_for('get_customer', gender = 0)}}"> <p>khách hàng nữ chưa liên lạc</p> </a></button>
   </body>
 </html>
