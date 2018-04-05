@@ -9,12 +9,12 @@
 
     <iframe width="854" height="480" src="https://www.youtube.com/embed/Sagg08DrO5U" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <br>
-    <b>Bạn là nam: </b><a href="{{ url_for('search', gender=0) }}">click vào em đi</a>
+    <b>Bạn là nam: </b><a href="{{ url_for('search', gender=1) }}">click vào em đi</a>
     <br>
-    <b>Bạn là Nữ: </b><a href="{{ url_for('search', gender=1) }}">click vào anh đi</a>
+    <b>Bạn là Nữ: </b><a href="{{ url_for('search', gender=0) }}">click vào anh đi</a>
     <br>
     <button><a href="{{url_for('customer')}}"> <p>danh sách khách hàng <p></a></button>
-    <button><a href="{{url_for('get_customer', gender = 1)}}"> <p>khách hàng nam chưa liên lạc</p> </a></button>
-    <button><a href="{{url_for('get_customer', gender = 0)}}"> <p>khách hàng nữ chưa liên lạc</p> </a></button>
+    <button><a href="{{url_for('get_customer', gender= 0)}}"> <p>khách hàng nam chưa liên lạc</p> </a></button>
+    <button><a href="{{url_for('get_customer', gender= 1)}}"> <p>khách hàng nữ chưa liên lạc</p> </a></button>
   </body>
 </html>

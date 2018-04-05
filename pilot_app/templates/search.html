@@ -10,17 +10,11 @@
 
     {% for service in all_services %}
 
-      {% if service.gender == 0 %}
-        <img src="../static/image/female-profile.jpg" alt="Ảnh Nóng">
-        {%else%}
-        <img src="../static/image/male-profile.jpg" alt="Ảnh Nóng">
-        {% endif %}
+      <img src="{{service.image}}" alt="img not found">
       <p>Name: {{service.name}}</p>
       <p>Yob: {{service.yob}}</p>
-      <p>gender: {{service.gender}}</p>
       <p>Height: {{service.height}}</p>
-      <p>Address: {{service.address}} </p>
-      <p>Status: {{service.status}}</p>
+      <a href="{{ url_for('get_detail', service_id=service.id) }}">More detail</a>
       <hr>
     {% endfor %}
 

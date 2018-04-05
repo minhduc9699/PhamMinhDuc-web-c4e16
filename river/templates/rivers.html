@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Rivers</title>
+  </head>
+  <body>
+    <h1>all rivers</h1>
+    {% for river in all_rivers %}
+
+      <p>Name: {{river.name}}</p>
+      <p>continent: {{river.continent}}</p>
+      <p>length: {{river.length}}</p>
+
+      <hr>
+    {% endfor %}
+
+  </body>
+</html>

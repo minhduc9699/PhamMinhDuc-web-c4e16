@@ -60,12 +60,54 @@ def add_member():
         name = form['name']
         yob = form['yob']
         address = form['address']
-        new_service = Service(name=name, yob=yob, address=address)
+        phone = form['phone']
+        height = form["height"]
+        gender = form['gender']
+        status = form['status']
+        new_service = Service(name=name, yob=yob, address=address, phone=phone, height=height, gender=gender, status=status)
         new_service.save()
 
         return redirect(url_for('admin'))
 
+@app.route('/detail/<service_id>',)
+def get_detail(service_id):
+    all_services = Service.objects.with_id(service_id)
+    return render_template('detail.html', all_services=all_services)
 
+@app.route('/update-service/<service_id>', methods=['GET', 'POST'])
+def update(service_id):
+
+    if request.method == "GET":
+        all_services = Service.objects.with_id(service_id)
+        return render_template('update.html', service=all_services)
+    elif request.method == "POST":
+        all_services = Service.objects.with_id(service_id)
+        form = request.form
+        image = form['image']
+        name = form['name']
+        yob = form['yob']
+        gender = form['gender']
+        address = form['address']
+        phone = form['phone']
+        height = form["height"]
+        measurements1 = form['measurements1']
+        measurements2 = form['measurements2']
+        measurements3 = form['measurements3']
+        description = form['description']
+        status = form['status']
+        if status == "True":
+            status = True
+        else:
+            status = False
+
+        measure= [measurements1, measurements2, measurements3]
+
+        all_services.update(set__image=image, set__name=name, set__yob=yob, set__address=address, set__phone=phone, set__height=height, set__description=description)
+        all_services.update(set__measurements=measure)
+        all_services.update(set__gender=gender, set__status=status)
+        # return form['gender']
+        # return form['image']
+        return redirect(url_for('admin'))
 
 if __name__ == '__main__':
   app.run(debug=True)

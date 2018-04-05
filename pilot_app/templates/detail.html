@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Database intro </title>
+  </head>
+  <body>
+
+      <img src="{{all_services.image}}" alt="img not found">
+      <h1>Name: {{all_services.name}}</h1>
+      <p>Yob: {{all_services.yob}}</p>
+      <p>gender: {{"Male" if all_services.gender == 0 else "Female"}}</p>
+      <p>Height: {{all_services.height}}</p>
+      <p>measurements:
+      {% for value in all_services.measurements %}
+      -{{value}}
+      {% endfor %}
+      </p>
+      <p>Phone: {{all_services.phone}}</p>
+      <p>Address: {{all_services.address}} </p>
+      <p>Status: {{all_services.status}}</p>
+      <p>Description: {{all_services.description}}</p>
+
+      <hr>
+
+
+
+  </body>
+</html>

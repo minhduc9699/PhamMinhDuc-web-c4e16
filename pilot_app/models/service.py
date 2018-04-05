@@ -2,6 +2,7 @@ from mongoengine import *
 
 #creat collection, design database
 class Service(Document):
+
     name = StringField()
     yob = IntField()
     gender = IntField() # 0: female, 1: male
@@ -9,6 +10,12 @@ class Service(Document):
     phone = StringField()
     address = StringField()
     status = BooleanField()
+    image = StringField()
+    description = StringField()
+    measurements = ListField()
+    def __str__(self):
+        return "{0}".format(self.name)
+
 
 class Customer(Document):
     name = StringField()

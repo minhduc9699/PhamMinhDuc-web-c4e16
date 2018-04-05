@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>update service</title>
+  </head>
+  <body>
+    <h1>update staff</h1>
+
+    <form method="POST">
+      <label>Image</label>
+      <input type="text" name="image" value="{{service.image}}">
+      <br>
+      <label>Name</label>
+      <input type="text" name="name" value="{{service.name}}">
+      <br>
+      <label>Gender</label>
+
+      <br>
+      {% if service.gender == 0 %}
+      <input type="radio" name="gender" value="0" checked>Male
+      <input type="radio" name="gender" value="1">Female
+      {% else %}
+      <input type="radio" name="gender" value="0">Male
+      <input type="radio" name="gender" value="1" checked>Female
+      {% endif %}
+      <br>
+      <label>Yob</label>
+      <input type="number" name="yob" value="{{service.yob}}">
+      <br>
+      <label>Phone</label>
+      <input type="text" name="phone" value="{{service.phone}}">
+      <br>
+      <label>Address</label>
+      <input type="text" name="address" value="{{service.address}}">
+      <br>
+      <label>Height</label>
+      <input type="number" name="height" value="{{service.height}}">
+      <br>
+      <label>Measurements</label>
+      <input type="number" name="measurements1" value="{{service.measurements.0}}">
+      <input type="number" name="measurements2" value="{{service.measurements.1}}">
+      <input type="number" name="measurements3" value="{{service.measurements.2}}">
+      <br>
+      <label>Description</label>
+      <input type="text" name="description" value="{{service.description}}">
+      <br>
+      <label> Status </label>
+      {% if service.status  %}
+      <input type="radio" name="status" value="True" checked>Rảnh
+      <input type="radio" name="status" value="False">Bận
+      {% else %}
+      <input type="radio" name="status" value="True">Rảnh
+      <input type="radio" name="status" value="False" checked>Bận
+      {% endif %}
+      <br>
+      <input type="submit">
+    </form>
+  </body>
+</html>
