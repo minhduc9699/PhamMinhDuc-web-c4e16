@@ -93,6 +93,7 @@ def update(service_id):
         measurements1 = form['measurements1']
         measurements2 = form['measurements2']
         measurements3 = form['measurements3']
+        measure= [measurements1, measurements2, measurements3]
         description = form['description']
         status = form['status']
         if status == "True":
@@ -100,13 +101,10 @@ def update(service_id):
         else:
             status = False
 
-        measure= [measurements1, measurements2, measurements3]
 
         all_services.update(set__image=image, set__name=name, set__yob=yob, set__address=address, set__phone=phone, set__height=height, set__description=description)
         all_services.update(set__measurements=measure)
         all_services.update(set__gender=gender, set__status=status)
-        # return form['gender']
-        # return form['image']
         return redirect(url_for('admin'))
 
 if __name__ == '__main__':

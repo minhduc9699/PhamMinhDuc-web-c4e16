@@ -13,8 +13,7 @@ class Service(Document):
     image = StringField()
     description = StringField()
     measurements = ListField()
-    def __str__(self):
-        return "{0}".format(self.name)
+    
 
 
 class Customer(Document):
