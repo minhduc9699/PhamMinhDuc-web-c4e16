@@ -4,8 +4,8 @@ mlab.connect()
 
 
 
-all_services = Service.objects()
-all_services.delete()
+# all_services = Service.objects()
+# all_services.delete()
 
 # print(all_services[100].name)
 # id_to_find = '5ac08eb336b8e40a64c5759d'
@@ -17,6 +17,6 @@ all_services.delete()
 # else:
 #     #kieu_anh.delete()
 #     #Update data
-     Service.update(set__address="Trần Duy Hưng")
+#     Service.update(set__address="Trần Duy Hưng")
 #     Service.reload()
 #     print(Service.address)

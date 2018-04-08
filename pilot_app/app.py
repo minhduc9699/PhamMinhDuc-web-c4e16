@@ -16,10 +16,15 @@ mlab.connect()
 def index():
     return render_template('index.html')
 
+@app.route('/all_services')
+def show_all():
+    all_services = Service.objects
+
+    return render_template('search.html', all_services = all_services)
+
 @app.route('/search/<int:gender>')
 def search(gender):
     all_services= Service.objects(gender=gender)
-
 
     return render_template('search.html', all_services = all_services)
 
@@ -69,6 +74,14 @@ def add_member():
 
         return redirect(url_for('admin'))
 
+@app.route('/delete_member')
+def delete_all():
+    all_services = Service.objects()
+    all_services.delete()
+    return redirect(url_for('admin'))
+
+
+
 @app.route('/detail/<service_id>',)
 def get_detail(service_id):
     all_services = Service.objects.with_id(service_id)
@@ -102,9 +115,16 @@ def update(service_id):
             status = False
 
 
-        all_services.update(set__image=image, set__name=name, set__yob=yob, set__address=address, set__phone=phone, set__height=height, set__description=description)
+        all_services.update(set__image=image,
+                            set__name=name,
+                            set__yob=yob,
+                            set__address=address,
+                            set__phone=phone,
+                            set__height=height,
+                            set__description=description)
         all_services.update(set__measurements=measure)
-        all_services.update(set__gender=gender, set__status=status)
+        all_services.update(set__gender=gender,
+                            set__status=status)
         return redirect(url_for('admin'))
 
 if __name__ == '__main__':
