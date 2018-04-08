@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Order Page</title>
+  </head>
+  <body>
+    <h1>Orders waitting for accepted</h1>
+    <table border="1px">
+      <thead>
+        <th>STT</th>
+        <th>Đối Tác</th>
+        <th>Người Dùng</th>
+        <th>Thời gian yêu cầu</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {% for order in all_order %}
+        <tr>
+        <td>{{loop.index}}</td>
+        <td>{{order.service.name}}</td>
+        <td>{{order.user.fullname}}</td>
+        <td>{{order.time}}</td>
+        <td> <a href="{{url_for('order', order_id=order.id)}}"> Phê duyệt yêu cầu </a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

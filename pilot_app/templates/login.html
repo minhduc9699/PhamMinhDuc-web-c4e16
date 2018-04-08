@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>login</h1>
+    <p>Bạn cần đăng nhập để sử dụng dịch vụ</p>
+    <form method="post">
+      <label>Username</label>
+      <input type="text" name="username" value="" required>
+      <br>
+      <label>Password</label>
+      <input type="password" name="password" value="" required>
+      <br>
+      <input type="submit">
+    </form>
+    <b>Nếu bạn chưa có tài khoản click <a href="{{url_for('sign_in')}}">Đăng ký</a></b>
+  </body>
+</html>

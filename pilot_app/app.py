@@ -1,16 +1,14 @@
 from flask import *
-from models.service import Service, Customer
+from models.service import Service, Customer, User, Order
+from datetime import *
+from gmail import GMail, Message
 import mlab
 
 app = Flask(__name__)
+app.secret_key = "sudo"
 mlab.connect()
 
 
-# #creat a Document
-# new_service = Service(name="Linh ka", yob=2002, gender=0, height=148, phone="098124141", address="hà nội", status = False)
-#
-#
-# new_service.save()
 
 @app.route('/')
 def index():
@@ -18,14 +16,13 @@ def index():
 
 @app.route('/all_services')
 def show_all():
-    all_services = Service.objects
+    all_services = Service.objects()
 
     return render_template('search.html', all_services = all_services)
 
 @app.route('/search/<int:gender>')
 def search(gender):
     all_services= Service.objects(gender=gender)
-
     return render_template('search.html', all_services = all_services)
 
 @app.route('/customer')
@@ -40,6 +37,44 @@ def get_customer(gender):
     uncontacted_customers = Customer.objects[:10](gender=gender, contacted=False)
     return render_template('customer.html', all_customers=uncontacted_customers)
 
+@app.route('/sign-in', methods=['GET', 'POST'])
+def sign_in():
+    if request.method == "GET":
+        return render_template('sign_in.html')
+    elif request.method == "POST":
+        form = request.form
+        fullname = form['fullname']
+        email = form['email']
+        username = form['username']
+        password = form['password']
+
+        new_user = User(fullname=fullname,
+                        email=email,
+                        username=username,
+                        password=password)
+        new_user.save()
+        return redirect(url_for('index'))
+
+@app.route('/login', methods=["GET", "POST"])
+def log_in():
+    if request.method == "GET":
+        return render_template('login.html')
+    elif request.method == "POST":
+        form = request.form
+        username_input = form['username']
+        password_input = form['password']
+        account = User.objects(username=username_input, password=password_input).first()
+        if account == None:
+            return redirect(url_for('log_in'))
+        else:
+            session['logged_user'] = str(account['id'])
+            return redirect(url_for('index'))
+@app.route('/logout')
+def logout():
+    del session['logged_user']
+    return redirect(url_for('index'))
+
+
 
 @app.route('/admin')
 def admin():
@@ -50,7 +85,7 @@ def admin():
 @app.route('/delete/<service_id>')
 def delete(service_id):
     services_to_del = Service.objects.with_id(service_id)
-    if service_id is None:
+    if service_to_del is None:
         return('Id not found')
     else:
         services_to_del.delete()
@@ -69,7 +104,13 @@ def add_member():
         height = form["height"]
         gender = form['gender']
         status = form['status']
-        new_service = Service(name=name, yob=yob, address=address, phone=phone, height=height, gender=gender, status=status)
+        new_service = Service(name=name,
+                              yob=yob,
+                              address=address,
+                              phone=phone,
+                              height=height,
+                              gender=gender,
+                              status=status)
         new_service.save()
 
         return redirect(url_for('admin'))
@@ -81,11 +122,33 @@ def delete_all():
     return redirect(url_for('admin'))
 
 
+@app.route('/order-page')
+def show_order():
+    all_order = Order.objects(is_accepted=False)
+    return render_template('order.html', all_order=all_order)
 
-@app.route('/detail/<service_id>',)
+
+@app.route('/order-click/<order_id>')
+def order(order_id):
+
+        all_order = Order.objects.with_id(order_id)
+        all_order.update(set__is_accepted=True)
+
+        user_mail = all_order['user']['email']
+        html_content = ''' Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của "Mùa Đông Không Lạnh" '''
+        gmail = GMail('tuananhc4e16@gmail.com', '01662518199')
+        msg = Message('Mùa Đông Không Lạnh', to= user_mail, html= html_content)
+        gmail.send(msg)
+        return redirect(url_for('show_order'))
+
+@app.route('/detail/<service_id>')
 def get_detail(service_id):
-    all_services = Service.objects.with_id(service_id)
-    return render_template('detail.html', all_services=all_services)
+    if 'logged_user' in session:
+        all_services = Service.objects.with_id(service_id)
+        return render_template('detail.html', all_services=all_services)
+    else: return redirect(url_for('log_in'))
+
+
 
 @app.route('/update-service/<service_id>', methods=['GET', 'POST'])
 def update(service_id):
@@ -121,11 +184,24 @@ def update(service_id):
                             set__address=address,
                             set__phone=phone,
                             set__height=height,
-                            set__description=description)
-        all_services.update(set__measurements=measure)
-        all_services.update(set__gender=gender,
+                            set__description=description,
+                            set__measurements=measure,
+                            set__gender=gender,
                             set__status=status)
         return redirect(url_for('admin'))
 
+@app.route('/order/<service_id>')
+def new_order(service_id):
+    user_id = session['logged_user']
+    user = User.objects.with_id(user_id)
+    service = Service.objects.with_id(service_id)
+    time ='{0:%H:%M %d/%m}'.format(datetime.now())
+    is_accepted = False
+    new_order = Order(service=service,
+                      user=user,
+                      time=time,
+                      is_accepted=is_accepted)
+    new_order.save()
+    return 'Đã gửi yêu cầu, bấm back để quay lại'
 if __name__ == '__main__':
   app.run(debug=True)

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>C4E CMS</title>
+  </head>
+  <body>
+    <h1>C4E 16 CMS APP</h1>
+    {% for video in videos %}
+    <img src="{{video.thumbnail}}" width="200px" height="130px">
+    <p>Tên: {{video.title}}</p>
+    <b>{{video.views}} views</b>
+    <a href="{{url_for('detail', video_id=video.id)}}">More</a>
+    <hr>
+    {% endfor %}
+
+  </body>
+</html>
