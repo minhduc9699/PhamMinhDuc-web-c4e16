@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>login</h1>
+    <p>Bạn cần đăng nhập để vào trang quản lý</p>
+    <form method="POST">
+      <label>Username</label>
+      <input type="text" name="username_admin" value="" required>
+      <br>
+      <label>Password</label>
+      <input type="password" name="password_admin" value="" required>
+      <br>
+      <input type="submit">
+    </form>
+    <b>Bạn muốn trở thành admin? Liên hệ <a href="https://www.facebook.com/mi.du.6.99">Minh Đức</a> </b>
+    <br>
+    <b>Click vào <a href="{{url_for('index')}}">đây</a>để quay lại trang chủ </b>
+  </body>
+</html>

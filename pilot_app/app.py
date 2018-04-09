@@ -25,6 +25,15 @@ def search(gender):
     all_services= Service.objects(gender=gender)
     return render_template('search.html', all_services = all_services)
 
+
+@app.route('/detail/<service_id>')
+def get_detail(service_id):
+    if 'logged_user' in session:
+        all_services = Service.objects.with_id(service_id)
+        return render_template('detail.html', all_services=all_services)
+    else:
+        return redirect(url_for('log_in'))
+
 @app.route('/customer')
 def customer():
     #Render all customers: (bỏ cmt để kiểm tra a eii :v)
@@ -53,7 +62,7 @@ def sign_in():
                         username=username,
                         password=password)
         new_user.save()
-        return redirect(url_for('index'))
+        return redirect(url_for('log_in'))
 
 @app.route('/login', methods=["GET", "POST"])
 def log_in():
@@ -74,13 +83,34 @@ def logout():
     del session['logged_user']
     return redirect(url_for('index'))
 
+@app.route('/login-admin', methods=["GET", "POST"])
+def log_in_admin():
+    if request.method == "GET":
+        return render_template('login_admin.html')
+    elif request.method == "POST":
+        form = request.form
+        username = form['username_admin']
+        password = form['password_admin']
+
+        if username == "admin" and password == "admin":
+            session['logged_admin'] = True
+            return redirect(url_for('admin'))
+        else:
+            return render_template('login_admin.html')
+
+@app.route('/logout_admin')
+def log_out_admin():
+    del session['logged_admin']
+    return redirect(url_for('index'))
 
 
 @app.route('/admin')
 def admin():
-    services = Service.objects()
-    return render_template('admin.html', services= services)
-
+    if 'logged_admin' in session:
+        services = Service.objects()
+        return render_template('admin.html', services= services)
+    else:
+        return redirect(url_for('log_in_admin'))
 
 @app.route('/delete/<service_id>')
 def delete(service_id):
@@ -140,15 +170,6 @@ def order(order_id):
         msg = Message('Mùa Đông Không Lạnh', to= user_mail, html= html_content)
         gmail.send(msg)
         return redirect(url_for('show_order'))
-
-@app.route('/detail/<service_id>')
-def get_detail(service_id):
-    if 'logged_user' in session:
-        all_services = Service.objects.with_id(service_id)
-        return render_template('detail.html', all_services=all_services)
-    else: return redirect(url_for('log_in'))
-
-
 
 @app.route('/update-service/<service_id>', methods=['GET', 'POST'])
 def update(service_id):
