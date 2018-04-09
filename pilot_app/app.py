@@ -28,10 +28,11 @@ def search(gender):
 
 @app.route('/detail/<service_id>')
 def get_detail(service_id):
+    all_services = Service.objects.with_id(service_id)
     if 'logged_user' in session:
-        all_services = Service.objects.with_id(service_id)
         return render_template('detail.html', all_services=all_services)
     else:
+        session['service_id'] = service_id
         return redirect(url_for('log_in'))
 
 @app.route('/customer')
@@ -77,7 +78,7 @@ def log_in():
             return redirect(url_for('log_in'))
         else:
             session['logged_user'] = str(account['id'])
-            return redirect(url_for('index'))
+            return redirect(url_for('get_detail', service_id=session['service_id']))
 @app.route('/logout')
 def logout():
     del session['logged_user']
