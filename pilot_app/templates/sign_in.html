@@ -6,12 +6,13 @@
   </head>
   <body>
     <h1>Đăng ký tài khoản</h1>
+    <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
     <form method="post">
       <label>Tên đầy đủ</label>
       <input type="text" name="fullname" value="" required>
       <br>
       <label>Email</label>
-      <input type="text" name="email" value="" required>
+      <input type="email" name="email" value="" required>
       <br>
       <label>Tên đăng nhập</label>
       <input type="text" name="username" value="" required>
