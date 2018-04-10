@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Order Page</title>
+  </head>
+  <body>
+    <h1>Hello {{all_user.fullname}}</h1>
+    <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
+    <h3> <a href="{{url_for('logout')}}">Logout</a> </h3>
+
+    <table border="1px">
+      <thead>
+        <th>STT</th>
+        <th>Đối Tác</th>
+        <th>Thời gian yêu cầu</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {% for order in all_order %}
+        <tr>
+        <td>{{loop.index}}</td>
+        <td>{{order.service.name}}</td>
+        <td>{{order.time}}</td>
+        <td> <a href="{{url_for('del_order', order_id=order.id)}}"> Hủy yêu cầu </a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

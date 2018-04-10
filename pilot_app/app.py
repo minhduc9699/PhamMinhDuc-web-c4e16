@@ -12,7 +12,10 @@ mlab.connect()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    logged_in = False
+    if 'logged_user' in session:
+        logged_in = True
+    return render_template('index.html',session=session, logged_in=logged_in)
 
 @app.route('/all_services')
 def show_all():
@@ -79,6 +82,23 @@ def log_in():
         else:
             session['logged_user'] = str(account['id'])
             return redirect(url_for('get_detail', service_id=session['service_id']))
+
+@app.route('/login-homepage', methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template('login.html')
+    elif request.method == "POST":
+        form = request.form
+        username_input = form['username']
+        password_input = form['password']
+        account = User.objects(username=username_input, password=password_input).first()
+        if account == None:
+            return redirect(url_for('log_in'))
+        else:
+            session['logged_user'] = str(account['id'])
+            return redirect(url_for('index'))
+
+
 @app.route('/logout')
 def logout():
     del session['logged_user']
@@ -153,25 +173,6 @@ def delete_all():
     return redirect(url_for('admin'))
 
 
-@app.route('/order-page')
-def show_order():
-    all_order = Order.objects(is_accepted=False)
-    return render_template('order.html', all_order=all_order)
-
-
-@app.route('/order-click/<order_id>')
-def order(order_id):
-
-        all_order = Order.objects.with_id(order_id)
-        all_order.update(set__is_accepted=True)
-
-        user_mail = all_order['user']['email']
-        html_content = ''' Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của "Mùa Đông Không Lạnh" '''
-        gmail = GMail('tuananhc4e16@gmail.com', '01662518199')
-        msg = Message('Mùa Đông Không Lạnh', to= user_mail, html= html_content)
-        gmail.send(msg)
-        return redirect(url_for('show_order'))
-
 @app.route('/update-service/<service_id>', methods=['GET', 'POST'])
 def update(service_id):
 
@@ -225,5 +226,37 @@ def new_order(service_id):
                       is_accepted=is_accepted)
     new_order.save()
     return 'Đã gửi yêu cầu, bấm back để quay lại'
+
+
+@app.route('/order-page')
+def show_order():
+    all_order = Order.objects(is_accepted=False)
+    return render_template('order.html', all_order=all_order)
+
+
+@app.route('/user-oder-page/<user_id>')
+def show_user_order(user_id):
+    all_user = User.objects.with_id(user_id)
+    all_order = Order.objects(is_accepted=False, user=all_user['id'])
+    return render_template('user_order.html', all_order=all_order, all_user=all_user)
+
+@app.route('/del-order/<order_id>')
+def del_order(order_id):
+        all_order = Order.objects.with_id(order_id)
+        all_order.update(set__is_accepted=True)
+        return redirect(url_for('show_user_order', user_id=session['logged_user']))
+
+@app.route('/order-click/<order_id>')
+def order(order_id):
+
+        all_order = Order.objects.with_id(order_id)
+        all_order.update(set__is_accepted=True)
+
+        user_mail = all_order['user']['email']
+        html_content = ''' Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của "Mùa Đông Không Lạnh" '''
+        gmail = GMail('tuananhc4e16@gmail.com', '01662518199')
+        msg = Message('Mùa Đông Không Lạnh', to= user_mail, html= html_content)
+        gmail.send(msg)
+        return redirect(url_for('show_order'))
 if __name__ == '__main__':
   app.run(debug=True)
