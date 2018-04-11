@@ -243,7 +243,7 @@ def show_user_order(user_id):
 @app.route('/del-order/<order_id>')
 def del_order(order_id):
         all_order = Order.objects.with_id(order_id)
-        all_order.update(set__is_accepted=True)
+        all_order.delete()
         return redirect(url_for('show_user_order', user_id=session['logged_user']))
 
 @app.route('/order-click/<order_id>')
