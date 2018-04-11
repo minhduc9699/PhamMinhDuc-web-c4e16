@@ -68,6 +68,24 @@ def sign_in():
         new_user.save()
         return redirect(url_for('log_in'))
 
+@app.route('/sign-in-homepage', methods=['GET', 'POST'])
+def signin():
+    if request.method == "GET":
+        return render_template('sign_in.html')
+    elif request.method == "POST":
+        form = request.form
+        fullname = form['fullname']
+        email = form['email']
+        username = form['username']
+        password = form['password']
+
+        new_user = User(fullname=fullname,
+                        email=email,
+                        username=username,
+                        password=password)
+        new_user.save()
+        return redirect(url_for('login'))
+
 @app.route('/login', methods=["GET", "POST"])
 def log_in():
     if request.method == "GET":
@@ -86,14 +104,14 @@ def log_in():
 @app.route('/login-homepage', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template('login.html')
+        return render_template('login_homepage.html')
     elif request.method == "POST":
         form = request.form
         username_input = form['username']
         password_input = form['password']
         account = User.objects(username=username_input, password=password_input).first()
         if account == None:
-            return redirect(url_for('log_in'))
+            return redirect(url_for('login'))
         else:
             session['logged_user'] = str(account['id'])
             return redirect(url_for('index'))
