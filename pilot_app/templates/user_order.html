@@ -2,11 +2,12 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Order Page</title>
+    <title>User Page</title>
   </head>
   <body>
     <h1>Hello {{all_user.fullname}}</h1>
     <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
+    <h3> <a href="{{url_for('update_user')}}"> Cập nhật thông tin </a> </h3>
     <h3> <a href="{{url_for('logout')}}">Logout</a> </h3>
     <h2> Danh sách order đang chờ kiếm duyệt </h2>
     <table border="1px">

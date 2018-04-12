@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title> Update user </title>
+  </head>
+  <body>
+    <h1> Cập nhật thông tin </h1>
+    <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
+    <form method="post">
+      <label> Họ và Tên </label>
+      <input type="text" name="name_update" value="{{all_user.fullname}}">
+      <br>
+      <label> Địa chỉ email </label>
+      <input type="email" name="email_update" value="{{all_user.email}}">
+      <br>
+      <label> Mật khẩu </label>
+      <input type="password" name="password_update" value="{{all_user.password}}">
+      <br>
+      <input type="submit">
+    </form>
+  </body>
+</html>

@@ -12,6 +12,7 @@ mlab.connect()
 
 @app.route('/')
 def index():
+    session['pre_page'] = 'home'
     logged_in = False
     if 'logged_user' in session:
         logged_in = True
@@ -31,6 +32,7 @@ def search(gender):
 
 @app.route('/detail/<service_id>')
 def get_detail(service_id):
+    session['pre_page'] = 'detail'
     all_services = Service.objects.with_id(service_id)
     if 'logged_user' in session:
         return render_template('detail.html', all_services=all_services)
@@ -60,31 +62,17 @@ def sign_in():
         email = form['email']
         username = form['username']
         password = form['password']
+        all_user = User.objects(username=username).first()
+        if all_user == None:
+            new_user = User(fullname=fullname,
+                            email=email,
+                            username=username,
+                            password=password)
+            new_user.save()
+            return redirect(url_for('log_in'))
+        else:
+            return 'Tên đăng nhập đã bị trùng, vui lòng bấm back để nhập lại'
 
-        new_user = User(fullname=fullname,
-                        email=email,
-                        username=username,
-                        password=password)
-        new_user.save()
-        return redirect(url_for('log_in'))
-
-@app.route('/sign-in-homepage', methods=['GET', 'POST'])
-def signin():
-    if request.method == "GET":
-        return render_template('sign_in.html')
-    elif request.method == "POST":
-        form = request.form
-        fullname = form['fullname']
-        email = form['email']
-        username = form['username']
-        password = form['password']
-
-        new_user = User(fullname=fullname,
-                        email=email,
-                        username=username,
-                        password=password)
-        new_user.save()
-        return redirect(url_for('login'))
 
 @app.route('/login', methods=["GET", "POST"])
 def log_in():
@@ -99,23 +87,27 @@ def log_in():
             return redirect(url_for('log_in'))
         else:
             session['logged_user'] = str(account['id'])
-            return redirect(url_for('get_detail', service_id=session['service_id']))
+            if session['pre_page'] == 'detail':
+                return redirect(url_for('get_detail', service_id=session['service_id']))
+            elif session['pre_page'] == 'home':
+                return redirect(url_for('index'))
 
-@app.route('/login-homepage', methods=["GET", "POST"])
-def login():
+
+@app.route('/forgot-password', methods=["GET", "POST"])
+def forgot_password():
     if request.method == "GET":
-        return render_template('login_homepage.html')
+        return render_template('forgot_password.html')
     elif request.method == "POST":
         form = request.form
-        username_input = form['username']
-        password_input = form['password']
-        account = User.objects(username=username_input, password=password_input).first()
+        user_username = form['user_username']
+        user_email = form['user_email']
+        user_password = form['user_password']
+        account = User.objects(username=user_username, email=user_email).first()
         if account == None:
-            return redirect(url_for('login'))
+            return redirect(url_for('forgot_password'))
         else:
-            session['logged_user'] = str(account['id'])
-            return redirect(url_for('index'))
-
+            account.update(set__password=user_password)
+            return redirect(url_for('log_in'))
 
 @app.route('/logout')
 def logout():
@@ -135,7 +127,7 @@ def log_in_admin():
             session['logged_admin'] = True
             return redirect(url_for('admin'))
         else:
-            return render_template('login_admin.html')
+            return redirect(url_for('log_in_admin'))
 
 @app.route('/logout_admin')
 def log_out_admin():
@@ -252,11 +244,45 @@ def show_order():
     return render_template('order.html', all_order=all_order)
 
 
-@app.route('/user-oder-page/<user_id>')
+@app.route('/user-page/<user_id>')
 def show_user_order(user_id):
     all_user = User.objects.with_id(user_id)
     all_order = Order.objects(is_accepted=False, user=all_user['id'])
     return render_template('user_order.html', all_order=all_order, all_user=all_user)
+
+@app.route('/check-user', methods=["GET", "POST"])
+def check_user():
+    all_user = User.objects.with_id(session['logged_user'])
+    if request.method == 'GET':
+        return render_template('check_user.html')
+    elif request.method == 'POST':
+        form = request.form
+        password_input = form['password_check']
+        if password_input == all_user.password:
+            session['checked'] = True
+            return redirect(url_for('update_user'))
+
+
+@app.route('/update-user', methods=['GET', 'POST'])
+def update_user():
+    if 'checked' not in session:
+        return redirect(url_for('check_user'))
+    else:
+        if request.method == "GET":
+            all_user = User.objects.with_id(session['logged_user'])
+            return render_template('update_user.html', all_user=all_user)
+        elif request.method == "POST":
+            all_user = User.objects.with_id(session['logged_user'])
+            form = request.form
+            name_update = form['name_update']
+            email_update = form['email_update']
+            password_update = form['password_update']
+
+            all_user.update(set__fullname=name_update,
+                            set__email=email_update,
+                            set__password=password_update)
+            del session['checked']
+            return redirect(url_for('show_user_order', user_id=session['logged_user']))
 
 @app.route('/del-order/<order_id>')
 def del_order(order_id):

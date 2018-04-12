@@ -23,8 +23,7 @@
     {% if logged_in %}
     <button><a href="{{url_for('show_user_order', user_id=session.logged_user)}}"> <p> User page <p></a></button>
     {% else %}
-    <button><a href="{{url_for('login')}}"> <p>Login <p></a></button>
-
+    <button><a href="{{url_for('log_in')}}"> <p>Login <p></a></button>
     {% endif %}
     <button><a href="{{url_for('admin')}}"> <p> Admin page <p></a></button>
 
