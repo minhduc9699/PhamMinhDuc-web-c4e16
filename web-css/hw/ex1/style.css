@@ -1,0 +1,57 @@
+.t-align{
+  text-align: center;
+}
+.t-whtie {
+  color: white;
+}
+.t-upper{
+  text-transform: uppercase;
+}
+.w-80px{
+  width: 80px;
+}
+.h-500px {
+  height: 500px;
+}
+
+.bg {
+  background-image: url('https://cdn.shopify.com/s/files/1/1994/3097/products/nightfox-min_1024x1024.png?v=1523158483');
+  background-size:cover;
+  background-attachment: fixed;
+}
+#parent {
+  padding: 30px 0px;
+}
+.m-60px {
+  margin: 60px 0px;
+}
+.w-100 {
+  width: 100%;
+}
+.w-200px{
+  width: 200px;
+}
+.h-200px{
+  height: 225px;
+}
+.m-20{
+  margin: 20px 0px 0px 0px;
+}
+.p-20{
+  padding: 20px 0px 0px 0px;
+}
+#flexbox{
+  display: flex;
+  justify-content: space-around;
+}
+img{
+  border-radius: 50%;
+  vertical-align: middle;
+  width: 200px;
+  height: 200px;
+}
+.b-solid {
+  border-top: solid;
+  border-color: white;
+
+}

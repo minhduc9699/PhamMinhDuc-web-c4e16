@@ -1,0 +1,76 @@
+.text-red {
+    color: red;
+}
+.font-size-40px {
+  font-size: 40px;
+
+}
+.text-weight-bold {
+  font-weight: bold;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.bg-lightbule {
+  background-color: #1ca593;
+}
+
+.h-500px {
+  height: 500px;
+}
+
+.w-300px {
+  width: 300px;
+}
+
+#bg {
+  background-image: url('https://opensource.google.com/assets/static/images/home/blog/blog_image_1.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.w-20 {
+  width: 20%;
+}
+.h-100px {
+  height: 100px;
+}
+.bg-green {
+  background-color: green;
+}
+
+.d-inline-block {
+  display:inline-block;
+}
+.h-50px {
+  height: 50px;
+}
+
+#parent {
+  padding: 10px 30px;
+}
+#center-element {
+  margin: 10px 20px 30px 40px;
+  border: 2px dashed black;
+}
+.mr-60 {
+  margin: 0px 59% 0px 0px;
+}
+.w-100px{
+  width: 100px;
+}
+.h-100px {
+  height: 100px;
+}
+.m-10px {
+  margin: 10px;
+}
+#flex-box {
+  display: flex;
+  flex-flow: row wrap;
+  /* justify-content: flex-start; /* căn ngang */
+  align-items: flex-start; /* căn dọc */
+  align-content: center;
+  height: 400px;
+}

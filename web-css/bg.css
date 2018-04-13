@@ -1,0 +1,27 @@
+.bg-red {
+  background-color: red;
+}
+.bg-blue{
+  background-color: blue;
+}
+.bg-black{
+  background-color: black;
+}
+.bg-green{
+  background-color: green;
+}
+.bg-yellow{
+  background-color: yellow;
+}
+.mr-40px {
+  margin: 40px;
+}
+.d-inline-block {
+  display: inline-block;
+}
+.w-25{
+  width: 25%
+}
+.t-align-center{
+  text-align: center;
+}
