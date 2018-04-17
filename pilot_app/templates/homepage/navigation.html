@@ -7,6 +7,9 @@
   <li class="nav-item ">
     <a class="nav-link text-light" href="{{url_for('logout')}}"> Đăng xuất <span class="sr-only">(current)</span></a>
   </li>
+  <li class="nav-item ">
+    <a class="nav-link text-light" href="{{url_for('show_user_order', user_id=session['logged_user'])}}"> Trang cá nhân <span class="sr-only">(current)</span></a>
+  </li>
   {%else%}
   <li class="nav-item ">
     <a class="nav-link text-light" href="{{url_for('log_in')}}">Đăng nhập <span class="sr-only">(current)</span></a>
