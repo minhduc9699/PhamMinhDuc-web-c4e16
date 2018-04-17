@@ -1,0 +1,18 @@
+<h1 class='mt-3 text-center font-weight-bold text-info'> Danh sách dịch vụ dành cho bạn </h1>
+
+<div class="card-column d-flex flex-md-wrap">
+  {% for service in all_services %}
+  <div class="card w-50 bg-light">
+    <img class="card-img-top rounded mx-auto d-block img-fit" src="{{ service.image }}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title text-center">{{ service.name }}</h5>
+      <p class="card-text text-center">Năm sinh: {{ service.yob }}</p>
+      <p class="card-text text-center">Chiều cao :{{ service.height }}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+      <small class="btn text-dark"> <i class="fas fa-heart"></i> <a href="{{ url_for('get_detail', service_id=service.id)}}">Xem chi tiết</a>
+ </small>
+    </div>
+  </div>
+ {% endfor %}
+</div>

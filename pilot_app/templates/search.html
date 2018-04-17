@@ -3,22 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Database intro </title>
+    {% include "meta-data.html" %}
+    <link rel="stylesheet" href="../static/css/search.css">
   </head>
   <body>
-    <h1>Search</h1>
-    <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
+    {% include "homepage/navigation.html" %}
 
+    {% include "search/basic-info.html" %}
 
-    {% for service in all_services %}
-
-      <img src="{{service.image}}" alt="img not found">
-      <p>Name: {{service.name}}</p>
-      <p>Yob: {{service.yob}}</p>
-      <p>Height: {{service.height}}</p>
-      <a href="{{ url_for('get_detail', service_id=service.id)}}">More detail</a>
-      <hr>
-    {% endfor %}
-
-
+    
   </body>
 </html>

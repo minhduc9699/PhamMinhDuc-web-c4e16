@@ -225,17 +225,20 @@ def update(service_id):
 
 @app.route('/order/<service_id>')
 def new_order(service_id):
-    user_id = session['logged_user']
-    user = User.objects.with_id(user_id)
     service = Service.objects.with_id(service_id)
-    time ='{0:%H:%M %d/%m}'.format(datetime.now())
-    is_accepted = False
-    new_order = Order(service=service,
-                      user=user,
-                      time=time,
-                      is_accepted=is_accepted)
-    new_order.save()
-    return 'Đã gửi yêu cầu, bấm back để quay lại'
+    if service['status'] == False:
+        return "Người này đã có khách thuê, vui lòng chọn nhân viên khác"
+    else:
+        user_id = session['logged_user']
+        user = User.objects.with_id(user_id)
+        time ='{0:%H:%M %d/%m}'.format(datetime.now())
+        is_accepted = False
+        new_order = Order(service=service,
+                          user=user,
+                          time=time,
+                          is_accepted=is_accepted)
+        new_order.save()
+        return 'Đã gửi yêu cầu, bấm back để quay lại'
 
 
 @app.route('/order-page')
@@ -249,6 +252,12 @@ def show_user_order(user_id):
     all_user = User.objects.with_id(user_id)
     all_order = Order.objects(is_accepted=False, user=all_user['id'])
     return render_template('user_order.html', all_order=all_order, all_user=all_user)
+
+@app.route('/del-order/<order_id>')
+def del_order(order_id):
+        all_order = Order.objects.with_id(order_id)
+        all_order.delete()
+        return redirect(url_for('show_user_order', user_id=session['logged_user']))
 
 @app.route('/check-user', methods=["GET", "POST"])
 def check_user():
@@ -284,18 +293,15 @@ def update_user():
             del session['checked']
             return redirect(url_for('show_user_order', user_id=session['logged_user']))
 
-@app.route('/del-order/<order_id>')
-def del_order(order_id):
-        all_order = Order.objects.with_id(order_id)
-        all_order.delete()
-        return redirect(url_for('show_user_order', user_id=session['logged_user']))
+
 
 @app.route('/order-click/<order_id>')
 def order(order_id):
-
         all_order = Order.objects.with_id(order_id)
+        service_id = all_order.service.id
+        all_services = Service.objects.with_id(service_id)
         all_order.update(set__is_accepted=True)
-
+        all_services.update(set__status=False)
         user_mail = all_order['user']['email']
         html_content = ''' Yêu cầu của bạn đã được xử lý, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn bạn đã sử dụng dịch vụ của "Mùa Đông Không Lạnh" '''
         gmail = GMail('tuananhc4e16@gmail.com', '01662518199')

@@ -1,0 +1,46 @@
+.font-lobster{
+  font-family: 'Lobster', cursive;
+}
+.mb-250px{
+  margin-bottom: 250px;
+}
+.mtb-100px{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.bg-img-female{
+  background-image: url("../../static/image/female.jpg");
+  background-size: cover;
+}
+.bg-img-male{
+  background-image: url("../../static/image/male.jpg");
+  background-size: cover;
+}
+.bg-img-night{
+  background-image: url("../../static/image/img.jpg");
+  background-size: contain;
+}
+.h-150px{
+  height: 150px;
+}
+.h-650px{
+  height: 650px;
+}
+.h-200px{
+  height: 200px;
+}
+.h-50px{
+  height: 50px;
+}
+.w-200px{
+  width: 200px;
+}
+.w-30{
+  width: 40%;
+}
+.img-fit{
+  width: inherit;
+  height: inherit;
+  border: 3px solid;
+  border-color: white;
+}

@@ -3,29 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Mùa Đông Không Lạnh</title>
+    {% include "meta-data.html" %}
+    <link rel="stylesheet" href="../static/css/homepage.css">
   </head>
   <body>
-    <h1>Mùa Đông Không lạnh</h1>
-    <p>Đây là 1 trang web chưa có css :v</p>
+    {% include "homepage/navigation.html" %}
+    {% include "homepage/carousel.html" %}
+    {% include "homepage/mission.html" %}
+    {% include "homepage/rated.html" %}
+    {% include "homepage/package.html" %}
 
-    <br>
-    <p>Bạn là nam: </p> <button> <a href="{{ url_for('search', gender=1) }}">click vào em đi</a> </button>
-    <br>
-    <p>Bạn là Nữ: </p> <button><a href="{{ url_for('search', gender=0) }}">click vào anh đi</a> </button>
-    <br>
-    <p>Bạn là người ăn tạp: </p> <button> <a href="{{url_for('show_all')}}">click vào tớ đi</a> </button>
-    <br>
-    <br>
-    <button><a href="{{url_for('customer')}}"> <p>danh sách khách hàng <p></a></button>
-    <button><a href="{{url_for('get_customer', gender= 0)}}"> <p>khách hàng nam chưa liên lạc</p> </a></button>
-    <button><a href="{{url_for('get_customer', gender= 1)}}"> <p>khách hàng nữ chưa liên lạc</p> </a></button>
-    <br>
-    {% if logged_in %}
-    <button><a href="{{url_for('show_user_order', user_id=session.logged_user)}}"> <p> User page <p></a></button>
-    {% else %}
-    <button><a href="{{url_for('log_in')}}"> <p>Login <p></a></button>
-    {% endif %}
-    <button><a href="{{url_for('admin')}}"> <p> Admin page <p></a></button>
-
+    <footer class="h-50px w-100 bg-dark pt-2"> <h5 class="text-center text-light container">Được thực hiện bởi techkids</h5> </footer>
   </body>
 </html>

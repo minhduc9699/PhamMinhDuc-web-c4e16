@@ -3,27 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>Database intro </title>
+    {% include "meta-data.html" %}
   </head>
   <body>
-    <h3> <a href="{{url_for('index')}}">Home Page</a> </h3>
-      <img src="{{all_services.image}}" alt="img not found">
-      <h1>Name: {{all_services.name}}</h1>
-      <p>Yob: {{all_services.yob}}</p>
-      <p>gender: {{"Male" if all_services.gender == 0 else "Female"}}</p>
-      <p>Height: {{all_services.height}}</p>
-      <p>measurements:
-      {% for value in all_services.measurements %}
-      -{{value}}
-      {% endfor %}
-      </p>
-      <p>Phone: {{all_services.phone}}</p>
-      <p>Address: {{all_services.address}} </p>
-      <p>Status: {{all_services.status}}</p>
-      <p>Description: {{all_services.description}}</p>
-      <a href="{{url_for('new_order', service_id=all_services.id)}}"> Yêu cầu dịch vụ </a>
-      <hr>
-      <a href="{{url_for('logout')}}">logout</a>
-
-
-  </body>
+    {% include "homepage/navigation.html" %}
+    <div class="card container" style="width: 70%;">
+      <img class="card-img-top" src="{{all_services.image}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title text-center">{{ all_services.name }}</h5>
+        <p class="card-text text-center">{{ all_services.description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item list-group-item-primary text-center"> Năm sinh: {{all_services.yob}}</li>
+      <li class="list-group-item list-group-item-primary text-center"> Giới tính: {{"Male" if all_services.gender == 0 else "Female"}}</li>
+      <li class="list-group-item list-group-item-primary text-center"> Chiều cao: {{all_services.height}} </li>
+      <li class="list-group-item list-group-item-primary text-center"> Số đo 3 vòng: {% for value in all_services.measurements %}-{{value}}{% endfor %} </li>
+      <li class="list-group-item list-group-item-primary text-center"> Số điện thoại: {{all_services.phone}}</li>
+      <li class="list-group-item list-group-item-primary text-center"> Địa chỉ: {{all_services.address}} </li>
+      {% if all_services.status == True %}
+        <li class="list-group-item list-group-item-primary text-center"> Trạng thái: {{ "Rảnh" if all_services.status == True else "Bận" }} </li>
+      {% else %}
+        <li class="list-group-item list-group-item-danger text-center"> Trạng thái: {{ "Rảnh" if all_services.status == True else "Bận" }} </li>
+      {% endif %}
+    </ul>
+    <div class="card-body d-flex justify-content-center">
+      <a class="btn btn-info" href="{{url_for('new_order', service_id=all_services.id)}}"> Yêu cầu dịch vụ </a>
+    </div>
+  </div>
+</body>
 </html>
